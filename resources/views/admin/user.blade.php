@@ -19,6 +19,7 @@
               <th>Email</th>
               <th>Name</th>
               <th>Image Profile</th>
+              <th>Updated At</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +101,7 @@ var columns = [
         {data: 'email', name: 'email'},
         {data: 'name', name: 'name'},
         {data: 'new_image', name: 'new_image'},
+        {data: 'updatedAt', name: 'updatedAt'},
     ];
 
 var url = "{{ route('UserApi.index') }}";

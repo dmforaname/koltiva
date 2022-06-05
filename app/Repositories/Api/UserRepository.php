@@ -26,7 +26,7 @@ class UserRepository extends BaseRepository
 
     public function getDatatableList()
     {
-        return Datatables::of(self::prepareForDatatable()->get()->makeHidden(['id']))
+        return Datatables::of(self::prepareForDatatable()->latest()->get()->makeHidden(['id']))
             ->addIndexColumn()
             ->setRowId(function ($data) {
                 return $data->uuid;
@@ -37,6 +37,10 @@ class UserRepository extends BaseRepository
                     return '<img src=" '.$data->image.' " alt="-" height="200px" style="max-width:200px" class="imgProfile">';
                 }
                 return "-";
+            })
+            ->addColumn('updatedAt', function($data) {
+
+                return $data->updated_at;
             })
             ->setRowClass(function ($data) {
                 return "clickRow";
