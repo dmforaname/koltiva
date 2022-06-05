@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\LoginStoreRequest;
 use App\Http\Requests\Web\RegistrationStoreRequest;
 use App\Repositories\Web\UserRepository;
 use App\Traits\ApiResponser;
@@ -35,5 +36,15 @@ class LoginController extends Controller
         $data = $this->user->create($params);
 
         return $this->success($data,'Register Success');
+    }
+
+    public function login(LoginStoreRequest $request)
+    {
+        if (\Auth::attempt($request->only(["email", "password"]))) {
+            
+            return $this->success(url("home"),'Login Success');
+        } 
+            
+        return $this->error('Invalid credentials',422);
     }
 }

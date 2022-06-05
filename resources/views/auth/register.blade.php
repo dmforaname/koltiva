@@ -35,7 +35,7 @@
         </div>
     </div>
     
-    <button class="btn btn-lg btn-primary btn-block" type="submit" id="storeButton">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="storeButton">Sign up</button>
 </form>
 
 @endsection
@@ -69,7 +69,6 @@ $("#formInsert").submit(function(e) {
 
             toastr.success(data.message)
             $("#formInsert").trigger("reset")
-            //$('.dataTables').DataTable().ajax.reload()
             $(".custom-file-label").removeClass("selected").html('Choose file');
             $('#storeButton').prop('disabled', false)
         },
