@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\UserUpdateRequest;
 use App\Http\Requests\Web\RegistrationStoreRequest;
 use App\Repositories\Api\UserRepository;
 use App\Traits\ApiResponser;
@@ -54,7 +55,7 @@ class UserController extends Controller
         $params = $this->user->getNewParam($request);
         $data = $this->user->create($params);
 
-        return $this->success($data,'Register Success');
+        return $this->success($data,'Successfully Store Data');
     }
 
     /**
@@ -88,9 +89,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        $data = $this->user->getByUuid($id);
+        $params = $this->user->getNewParam($request,$data->image);
+        $data->update($params);
+
+        return $this->success($data,'Successfully Update Data');
     }
 
     /**

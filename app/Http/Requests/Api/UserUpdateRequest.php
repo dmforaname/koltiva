@@ -27,9 +27,9 @@ class UserUpdateRequest extends FormRequest
         $id = User::uuid($this->route('uuid'))->id;
 
         return [
-            'name' => 'bail|required|min:3',
-            'email' => 'bail|required|email|unique:users,email,'.$id,
-            'image' => 'bail|required|mimes:jpg,bmp,png,jpeg|max:1024',
+            'name' => 'bail|sometimes|required|min:3',
+            'email' => 'bail|sometimes|required|email|unique:users,email,'.$id,
+            'image' => 'bail|sometimes|required|mimes:jpg,bmp,png,jpeg|max:1024',
         ];
     }
 }

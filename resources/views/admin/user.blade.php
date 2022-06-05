@@ -252,6 +252,55 @@ function clickEdit()
   $("#save-button").show()
 }
 
+$("#formEdit").submit(function(e){
+
+  e.preventDefault();
+  $('#save-button').prop('disabled', true);
+
+
+
+  var uuid = $("input[name=uuid]").val();
+
+  console.log(uuid)
+  var formData = new FormData(this);
+
+  $.ajax({
+
+    type:'POST',
+    url:"/api/users/"+uuid,
+    headers: {"X-HTTP-Method-Override": "PUT"},
+    data: formData,
+    cache:false,
+    contentType: false,
+    processData: false,  
+    success:function(data){
+
+      $('#ajaxModal').modal('hide')
+      toastr.success(data.message)
+      $('.dataTables').DataTable().ajax.reload(null, false)
+    },
+    error:function (e){
+
+      editError(e.responseJSON.errors)
+      toastr.error('Failed To Update Data')
+    }
+  });
+});
+
+function editError(err)
+{
+  $('#emailError').text(err?err.title:"")
+  $('#imageError').text(err?err.image:"")
+  $('#nameError').text(err?err.description:"")
+  $('#save-button').prop('disabled', false)
+}
+
+$('#ajaxModal').on('hidden.bs.modal', function () {
+
+  $("#formEdit").trigger("reset")
+  editError()
+})
+
 </script>
 @endpush
 
