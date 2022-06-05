@@ -65,7 +65,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->user->getByUuid($id);
+
+        return $this->success($data,'Get User Data Success');
     }
 
     /**
