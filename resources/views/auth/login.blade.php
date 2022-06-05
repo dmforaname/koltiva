@@ -49,6 +49,7 @@ $("#formInsert").submit(function(e) {
             toastr.success(data.message)
             $("#formInsert").trigger("reset")
             $('#storeButton').prop('disabled', false)
+            window.location.href = data.data
         },
         error:function (e){
 

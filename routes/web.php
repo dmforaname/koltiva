@@ -14,11 +14,18 @@ use App\Http\Controllers\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', [Auth\LoginController::class, 'index']);
+Route::get('/login', [Auth\LoginController::class, 'index'])->name('login');
 Route::get('/register', [Auth\LoginController::class, 'register']);
 Route::post('/register' , [Auth\LoginController::class, 'registerStore'])->name('Register.store');
 Route::post('/register' , [Auth\LoginController::class, 'login'])->name('Login.store');
+Route::get('/logout' , [Auth\LoginController::class, 'logout'])->name('userLogout');
+Route::get('/user/get-token', [Auth\LoginController::class, 'getToken'])->middleware('auth');
+
+
+Route::middleware(['auth'])->group(function () { 
+
+    Route::get('/', function () {
+        return view('admin.user');
+    });
+});
+
