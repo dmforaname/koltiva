@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\RegistrationStoreRequest;
 use App\Repositories\Api\UserRepository;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    use ApiResponser;
+
     protected $user;
 
     public function __construct(UserRepository $user)
@@ -45,9 +49,12 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegistrationStoreRequest $request)
     {
-        //
+        $params = $this->user->getNewParam($request);
+        $data = $this->user->create($params);
+
+        return $this->success($data,'Register Success');
     }
 
     /**

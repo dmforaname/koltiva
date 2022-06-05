@@ -5,10 +5,13 @@ namespace App\Repositories\Api;
 use App\Repositories\BaseRepository;
 use App\Models\User;
 use DataTables;
+use App\Traits\ImageTrait;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository extends BaseRepository
 {
+    use ImageTrait;
+
     protected $model;
 
     /**
@@ -45,5 +48,22 @@ class UserRepository extends BaseRepository
     private function prepareForDatatable()
     {
         return $this->model->query();
+    }
+
+    public function getNewParam($request,$image = null)
+    {
+        $params = $request->validated();
+
+        if ($request->hasFile('image')) {
+
+            if ($image) {
+
+                $this->removeImage($image);
+            }
+
+            $params['image'] = $this->storeImageToStorage($request,'image');
+        }
+
+        return $params;
     }
 }
