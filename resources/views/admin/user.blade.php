@@ -12,8 +12,8 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
+        <table class="table table-sm table-bordered table-hover table-striped dataTables">
+          <thead class="thead-dark">
             <tr>
               <th>No.</th>
               <th>Email</th>
@@ -22,7 +22,6 @@
             </tr>
           </thead>
           <tbody>
-
           </tbody>
         </table>
       </div>
@@ -40,12 +39,30 @@ function mainLoad()
   $.when(checkToken()).done(function (ct) {
 
     //console.log('Welcome')
-    //$('head title').text(`Dashboard - ${ct.data.hospital_name}`)
-
-    console.log(ct)
-    $("#overlay").fadeOut();
+    $('head title').text(`User - Koltiva`)
+    $("#overlay").fadeOut()
+    getDataTables(url,columns)
   });
 }
 
+var columns = [
+        {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+        {data: 'email', name: 'email'},
+        {data: 'name', name: 'name'},
+        {data: 'new_image', name: 'new_image'},
+    ];
+
+var url = "{{ route('UserApi.index') }}";
+
 </script>
+@endpush
+
+@push('styles')
+<style>
+  img.imgProfile {
+    height: auto;
+    width: auto;
+  }
+</style>
+
 @endpush

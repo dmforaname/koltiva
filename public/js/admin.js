@@ -130,3 +130,37 @@ function setupHeader (){
     });
 }
   
+
+function getDataTables (url,col) {
+
+  $('.dataTables').DataTable({
+
+    paging: true,
+    lengthChange: false,
+    searching: true,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: url,
+      error: function (jqXHR, textStatus, errorThrown) {
+         
+        console.log(errorThrown)
+        if(errorThrown === 'Unauthorized'){
+
+            window.reCallTable(url,col)
+        }    
+      }
+    },
+    columns: col
+  });
+}
+
+function reCallTable (url,col) {
+
+  $('.dataTables').DataTable().destroy();
+  getDataTables(url,col)
+}
