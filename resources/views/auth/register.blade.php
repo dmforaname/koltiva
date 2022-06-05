@@ -6,13 +6,15 @@
     <div class="text-center mb-4">   
         <h1 class="h3 mb-3 font-weight-normal">Register</h1>
     </div>
+    @csrf
+    
     <div class="form-label-group">
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputEmail">Email address</label>
     </div>
     <div class="form-label-group">
-        <input type="text" id="inputName" class="form-control" placeholder="Fullname" required>
-        <label for="inputName">Fullname</label>
+        <input type="text" id="inputName" class="form-control" placeholder="Full Name" required>
+        <label for="inputName">Full Name</label>
     </div>
     <div class="form-label-group">
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
