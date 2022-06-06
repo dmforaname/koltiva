@@ -136,7 +136,6 @@ function mainLoad()
 {
   $.when(checkToken()).done(function (ct) {
 
-    //console.log('Welcome')
     $('head title').text(`User - Koltiva`)
     $("#overlay").fadeOut()
     getDataTables(url,columns)
@@ -215,8 +214,6 @@ $(document).ready(function() {
     
     trId = $(this).attr('id');
 
-    console.log(trId)
-
     $.ajax({
       method : "GET",
       url:"/api/users/"+trId,
@@ -264,8 +261,6 @@ $('#save-button').click(function() {
     $('#save-button').prop('disabled', true);
 
     var uuid = $("input[name=uuid]").val();
-
-    console.log(uuid)
     var formData = new FormData(this);
 
     $.ajax({
@@ -319,9 +314,7 @@ function clickDelete()
 
 $('#sure-button').click(function() {
   
-  console.log('sure-button')
   var uuid = $("input[name=uuid]").val()
-  console.log(uuid)
 
   $.ajax({
 
@@ -344,10 +337,9 @@ $('#sure-button').click(function() {
 
       }else{
 
+        console.log(e)
         toastr.error('Failed To Delete Data!')
       }
-
-      
     }
   });
 })
