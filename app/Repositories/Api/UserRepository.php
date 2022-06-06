@@ -70,4 +70,12 @@ class UserRepository extends BaseRepository
 
         return $params;
     }
+
+    public function deleteImage($image): void
+    {
+        if ($image) {
+
+            $this->removeImage($image);
+        }
+    }
 }

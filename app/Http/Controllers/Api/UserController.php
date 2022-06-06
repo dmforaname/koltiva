@@ -9,6 +9,7 @@ use App\Repositories\Api\UserRepository;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Auth;
 
 class UserController extends Controller
 {
@@ -106,6 +107,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = $this->user->getByUuid($id);
+
+        if (Auth::id() == $data->id) return $this->error('Cant delete login user');
+
+        $this->user->deleteImage($data->image);
+        $data->delete();
+        
+
+        return $this->success($data,'Successfully Delete Data');
     }
 }

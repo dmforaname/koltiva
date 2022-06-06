@@ -112,6 +112,8 @@
               </div>
             </div>
             <div class="modal-footer">
+              <button type="button" id="delete-button" class="btn btn-danger" onclick="event.preventDefault(); clickDelete();">Delete</button>
+              <button type="button" id="sure-button" class="btn btn-danger">You, Sure!</button>
               <button type="button" id="edit-button" class="btn btn-primary" onclick="event.preventDefault(); clickEdit();">Edit</button>
               <button type="submit" id="save-button" class="btn btn-success">Save</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -209,6 +211,7 @@ $(document).ready(function() {
 
     $("#overlay").fadeIn();　
     $("#save-button").hide();
+    $("#sure-button").hide();
     
     trId = $(this).attr('id');
 
@@ -249,43 +252,46 @@ function clickEdit()
   $('#nameView').prop('disabled', false)
   $('#customFileView').prop('disabled', false)
   $("#edit-button").hide()
+  $("#delete-button").hide()
   $("#save-button").show()
 }
 
-$("#formEdit").submit(function(e){
+$('#save-button').click(function() {
+    
+  $("#formEdit").submit(function(e){
 
-  e.preventDefault();
-  $('#save-button').prop('disabled', true);
+    e.preventDefault();
+    $('#save-button').prop('disabled', true);
 
+    var uuid = $("input[name=uuid]").val();
 
+    console.log(uuid)
+    var formData = new FormData(this);
 
-  var uuid = $("input[name=uuid]").val();
+    $.ajax({
 
-  console.log(uuid)
-  var formData = new FormData(this);
+      type:'POST',
+      url:"/api/users/"+uuid,
+      headers: {"X-HTTP-Method-Override": "PUT"},
+      data: formData,
+      cache:false,
+      contentType: false,
+      processData: false,  
+      success:function(data){
 
-  $.ajax({
+        $('#ajaxModal').modal('hide')
+        toastr.success(data.message)
+        $('.dataTables').DataTable().ajax.reload(null, false)
+      },
+      error:function (e){
 
-    type:'POST',
-    url:"/api/users/"+uuid,
-    headers: {"X-HTTP-Method-Override": "PUT"},
-    data: formData,
-    cache:false,
-    contentType: false,
-    processData: false,  
-    success:function(data){
-
-      $('#ajaxModal').modal('hide')
-      toastr.success(data.message)
-      $('.dataTables').DataTable().ajax.reload(null, false)
-    },
-    error:function (e){
-
-      editError(e.responseJSON.errors)
-      toastr.error('Failed To Update Data')
-    }
+        editError(e.responseJSON.errors)
+        toastr.error('Failed To Update Data')
+      }
+    });
   });
-});
+
+})
 
 function editError(err)
 {
@@ -298,7 +304,52 @@ function editError(err)
 $('#ajaxModal').on('hidden.bs.modal', function () {
 
   $("#formEdit").trigger("reset")
+  $("#delete-button").show()
   editError()
+})
+
+function clickDelete()
+{
+  $("#edit-button").hide()
+  $("#delete-button").hide()
+  $("#save-button").hide()
+  $("#sure-button").show()
+}
+
+
+$('#sure-button').click(function() {
+  
+  console.log('sure-button')
+  var uuid = $("input[name=uuid]").val()
+  console.log(uuid)
+
+  $.ajax({
+
+    url:"/api/users/"+uuid,
+    type: 'DELETE',
+    data: {
+        "uuid" : uuid,
+    },
+    success: function (data){
+
+      $('#ajaxModal').modal('hide')
+      toastr.success(data.message)
+      $('.dataTables').DataTable().ajax.reload(null, false)
+    },
+    error:function (e){
+
+      if (e.responseJSON.message) {
+        
+        toastr.error(e.responseJSON.message)
+
+      }else{
+
+        toastr.error('Failed To Delete Data!')
+      }
+
+      
+    }
+  });
 })
 
 </script>
