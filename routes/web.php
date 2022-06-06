@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth;
+use App\Http\Controllers\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,6 @@ Route::get('/user/get-token', [Auth\LoginController::class, 'getToken'])->middle
 
 Route::middleware(['auth'])->group(function () { 
 
-    Route::get('/', function () {
-        return view('admin.user');
-    });
+    Route::get('/', [Admin\UserController::class,'index']);
 });
 
